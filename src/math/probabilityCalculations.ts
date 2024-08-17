@@ -41,54 +41,6 @@ export function calculateProbabilities(
   const moreThanXProbability =
     probToGetAtLeastX - probabilitiesArray[numSuccesses];
 
-  let exactlyXFraction = "";
-  let atLeastXFraction = "";
-
-  if (probabilitiesArray[numSuccesses] <= 0) {
-    exactlyXFraction = "exactly zero.";
-  } else {
-    exactlyXFraction = `roughly 1 / ${Math.round(
-      1 / probabilitiesArray[numSuccesses]
-    ).toLocaleString()}`;
-  }
-
-  if (probToGetAtLeastX <= 0) {
-    atLeastXFraction = "exactly zero.";
-  } else {
-    atLeastXFraction = `roughly 1 / ${Math.round(
-      1 / probToGetAtLeastX
-    ).toLocaleString()}`;
-  }
-
-  console.log(
-    `With the chance of success at ${successProbability} per trial\n` +
-      `taking a set of ${numTrials} trials,\n there is a:\n`
-  );
-
-  console.log(
-    `    chance to get EXACTLY ${numSuccesses} successes: ${(
-      100 * probabilitiesArray[numSuccesses]
-    ).toFixed(20)} %` + `      or ${exactlyXFraction}`
-  );
-  console.log(
-    `    chance to get AT LEAST ${numSuccesses} successes: ${(
-      100 * probToGetAtLeastX
-    ).toFixed(20)} %` + `      or ${atLeastXFraction}`
-  );
-  console.log("\n         Alternatively:");
-  console.log(
-    `    chance to get LESS THAN ${numSuccesses} successes: ${(
-      100 -
-      100 * probToGetAtLeastX
-    ).toFixed(20)} %`
-  );
-  console.log(
-    `    chance to get MORE THAN ${numSuccesses} successes: ${(
-      100 *
-      (probToGetAtLeastX - probabilitiesArray[numSuccesses])
-    ).toFixed(20)} %`
-  );
-
   return {
     exactlyXProbability,
     atLeastXProbability,

@@ -5,6 +5,7 @@ import {
   calculateProbabilities,
   ProbabilityResults,
 } from "./math/probabilityCalculations";
+import ResultsDisplay from "./components/ResultDisplay";
 
 function App() {
   const [successes, setSuccesses] = useState<number | null>(null);
@@ -27,35 +28,7 @@ function App() {
     <>
       <h1>OSRS Drop Probability Calculator</h1>
       <DropProbabilityForm onSubmit={onSubmit} />
-      {probabilities && (
-        <div>
-          <h2>Probability of:</h2>
-          <h2>
-            exactly {successes !== null ? successes : "n/a"} successes:{" "}
-            {probabilities.exactlyXProbability !== null
-              ? `${(probabilities.exactlyXProbability * 100).toFixed(10)}%`
-              : "n/a"}
-          </h2>
-          <h2>
-            at least {successes !== null ? successes : "n/a"} successes:{" "}
-            {probabilities.atLeastXProbability !== null
-              ? `${(probabilities.atLeastXProbability * 100).toFixed(10)}%`
-              : "n/a"}
-          </h2>
-          <h2>
-            less than {successes !== null ? successes : "n/a"} successes:{" "}
-            {probabilities.lessThanXProbability !== null
-              ? `${(probabilities.lessThanXProbability * 100).toFixed(10)}%`
-              : "n/a"}
-          </h2>
-          <h2>
-            more than {successes !== null ? successes : "n/a"} successes:{" "}
-            {probabilities.moreThanXProbability !== null
-              ? `${(probabilities.moreThanXProbability * 100).toFixed(10)}%`
-              : "n/a"}
-          </h2>
-        </div>
-      )}
+      <ResultsDisplay successes={successes} probabilities={probabilities} />
     </>
   );
 }
