@@ -4,7 +4,8 @@ import * as Yup from "yup";
 export type FormValues = {
   successes: number;
   trials: number;
-  successProbability: number;
+  successProbabilityNumerator: number;
+  successProbabilityDenominator: number;
 };
 
 type DropProbabilityForm = {
@@ -15,13 +16,21 @@ const SumForm = ({ onSubmit }: DropProbabilityForm) => {
   const initialValues = {
     successes: 0,
     trials: 0,
-    successProbability: 0,
+    successProbabilityNumerator: 0,
+    successProbabilityDenominator: 1,
   };
 
   const validationSchema = Yup.object({
-    successes: Yup.number().required("Required").min(0),
-    trials: Yup.number().required("Required").min(0),
-    successProbability: Yup.number().required("Required").min(0).max(1),
+    successes: Yup.number().integer().required("Required").min(0),
+    trials: Yup.number().integer().required("Required").min(0),
+    successProbabilityNumerator: Yup.number()
+      .integer()
+      .required("Required")
+      .min(0),
+    successProbabilityDenominator: Yup.number()
+      .integer()
+      .required("Required")
+      .min(1),
   });
 
   const formik = useFormik({
@@ -56,17 +65,27 @@ const SumForm = ({ onSubmit }: DropProbabilityForm) => {
           {formik.errors.trials && <div>{formik.errors.trials}</div>}
         </div>
         <div>
-          <label htmlFor="successProbability">Success Probability</label>
+          <label htmlFor="successProbabilityNumerator">drop chance</label>
           <input
-            id="successProbability"
-            name="successProbability"
+            id="successProbabilityNumerator"
+            name="successProbabilityNumerator"
             type="number"
-            step="0.01"
             onChange={formik.handleChange}
-            value={formik.values.successProbability}
+            value={formik.values.successProbabilityNumerator}
+          />{" "}
+          /{" "}
+          <input
+            id="successProbabilityDenominator"
+            name="successProbabilityDenominator"
+            type="number"
+            onChange={formik.handleChange}
+            value={formik.values.successProbabilityDenominator}
           />
-          {formik.errors.successProbability && (
-            <div>{formik.errors.successProbability}</div>
+          {formik.errors.successProbabilityNumerator && (
+            <div>{formik.errors.successProbabilityNumerator}</div>
+          )}
+          {formik.errors.successProbabilityDenominator && (
+            <div>{formik.errors.successProbabilityDenominator}</div>
           )}
         </div>
         <button type="submit">Submit</button>

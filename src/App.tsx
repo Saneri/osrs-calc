@@ -14,14 +14,12 @@ function App() {
   );
 
   const onSubmit = (values: FormValues) => {
-    setSuccesses(values.successes);
+    const dropChance =
+      values.successProbabilityNumerator / values.successProbabilityDenominator;
     setProbabilities(
-      calculateProbabilities(
-        values.trials,
-        values.successes,
-        values.successProbability
-      )
+      calculateProbabilities(values.trials, values.successes, dropChance)
     );
+    setSuccesses(values.successes);
   };
 
   return (
