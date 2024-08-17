@@ -2,24 +2,26 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 export type FormValues = {
-  integer1: number;
-  integer2: number;
+  successes: number;
+  trials: number;
+  successProbability: number;
 };
 
 type DropProbabilityForm = {
   onSubmit: (values: FormValues) => void;
-  sum: number | null;
 };
 
 const SumForm = ({ onSubmit }: DropProbabilityForm) => {
   const initialValues = {
-    integer1: 0,
-    integer2: 0,
+    successes: 0,
+    trials: 0,
+    successProbability: 0,
   };
 
   const validationSchema = Yup.object({
-    integer1: Yup.number().required("Required"),
-    integer2: Yup.number().required("Required"),
+    successes: Yup.number().required("Required").min(0),
+    trials: Yup.number().required("Required").min(0),
+    successProbability: Yup.number().required("Required").min(0).max(1),
   });
 
   const formik = useFormik({
@@ -32,31 +34,39 @@ const SumForm = ({ onSubmit }: DropProbabilityForm) => {
     <>
       <form onSubmit={formik.handleSubmit}>
         <div>
-          <label htmlFor="integer1">Integer 1</label>
+          <label htmlFor="successes">Successes</label>
           <input
-            id="integer1"
-            name="integer1"
+            id="successes"
+            name="successes"
             type="number"
             onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.integer1}
+            value={formik.values.successes}
           />
-          {formik.touched.integer1 && formik.errors.integer1 && (
-            <div>{formik.errors.integer1}</div>
-          )}
+          {formik.errors.successes && <div>{formik.errors.successes}</div>}
         </div>
         <div>
-          <label htmlFor="integer2">Integer 2</label>
+          <label htmlFor="trials">Trials</label>
           <input
-            id="integer2"
-            name="integer2"
+            id="trials"
+            name="trials"
             type="number"
             onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.integer2}
+            value={formik.values.trials}
           />
-          {formik.touched.integer2 && formik.errors.integer2 && (
-            <div>{formik.errors.integer2}</div>
+          {formik.errors.trials && <div>{formik.errors.trials}</div>}
+        </div>
+        <div>
+          <label htmlFor="successProbability">Success Probability</label>
+          <input
+            id="successProbability"
+            name="successProbability"
+            type="number"
+            step="0.01"
+            onChange={formik.handleChange}
+            value={formik.values.successProbability}
+          />
+          {formik.errors.successProbability && (
+            <div>{formik.errors.successProbability}</div>
           )}
         </div>
         <button type="submit">Submit</button>
